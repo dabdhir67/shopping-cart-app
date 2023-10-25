@@ -1,6 +1,9 @@
 import * as ActionTypes from "../actionTypes"
 import axios from "axios";
 
+import { getUserCart } from "../Cart/CartAction";
+import { getRecentOrders } from "../RecentOrders/RecentOrdersAction";
+
 export const AddUserToStore = (newUser)=>{
     return {
         type : ActionTypes.AddUserToStore,
@@ -29,7 +32,10 @@ export const LoginUser = (user) => {
         .then((response) => {
             if(response.status === 200){
                 console.log("Successfully signed in")
+                let signedUser = response.data;
                 dispatch(AddUserToStore(response.data))
+                dispatch(getUserCart(signedUser._id))
+                // dispatch(getRecentOrders(signedUser._id))
             } else {
                 console.log("Invalid Response Status")
             }

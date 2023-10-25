@@ -6,6 +6,15 @@ const cors = require('cors');
 const userRoute = require("./router/user_route")
 const userApp = express();
 
+const productRoute = require("./router/product_route")
+const productApp = express();
+
+const cartRoute = require("./router/cart_route")
+const cartApp = express();
+
+const recentOrderRoute = require("./router/recentorders_route")
+const recentOrderApp = express();
+
 console.log("We are in server.js")
 
 app.use(cors());//middleware to expose api for other users as public
@@ -18,8 +27,16 @@ app.use(express.json({limit:'2mb', extended:false}));
 
 //redirect all request with /admin path to userApp
 app.use('/user',userApp)
-//mounted admin app
 userApp.use('/',userRoute)
+
+app.use('/product',productApp)
+productApp.use('/', productRoute)
+
+app.use('/cart',cartApp)
+cartApp.use('/', cartRoute)
+
+app.use('/recentorders',recentOrderApp)
+recentOrderApp.use('/', recentOrderRoute)
 
 //wild card operator / default api
 app.get('*',(req, res)=>{
